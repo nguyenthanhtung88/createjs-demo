@@ -37,6 +37,8 @@ mainBtnTextDown.set({
 mainBtn.addChild(mainBtnBg, mainBtnTextUp, mainBtnTextDown);
 stage.addChild(mainBtn);
 
+fadeInLeftEffect(mainBtn);
+
 function init() {
     // Tween JS
     // createjs.Tween.get(circle, { loop: true })
@@ -179,6 +181,8 @@ function newGame() {
 
             stage.addChild(mainBtn);
             stage.update();
+
+            scaleEffect(mainBtn);
         }.bind(null, resultNumberArr[i], resultNumber));
         tmpBtn.set({
             x: baseX * i + 40,
@@ -216,4 +220,30 @@ function shuffleArray(array) {
         array[j] = temp;
     }
     return array;
+}
+
+function fadeInLeftEffect(target) {
+    var centerX = target.x;
+    target.alpha = 0;
+
+    createjs.Tween.get(target, {loop: false, override: false})
+        .to({x: centerX - 100})
+        .to({alpha: 1, x: centerX}, 2000, createjs.Ease.getPowInOut(4));
+
+    createjs.Ticker.setFPS(60);
+    createjs.Ticker.addEventListener('tick', stage);
+}
+
+function scaleEffect(target) {
+    target.set({
+        alpha: 0,
+        scaleX: 0.5,
+        scaleY: 0.5
+    });
+
+    createjs.Tween.get(target, {loop: false, override: false})
+        .to({alpha: 1, scaleX: 1, scaleY: 1}, 500, createjs.Ease.easeOut);
+
+    createjs.Ticker.setFPS(60);
+    createjs.Ticker.addEventListener('tick', stage);
 }
